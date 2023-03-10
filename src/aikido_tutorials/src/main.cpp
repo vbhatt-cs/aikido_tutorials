@@ -29,7 +29,8 @@ int main(int argc, char **argv) {
   robot.setWorld(env);
   auto id = robot.registerExecutor(
       std::make_shared<aikido::control::InstantaneousTrajectoryExecutor>(
-          robot.getMetaSkeleton()));
+          robot.getMetaSkeleton()),
+      "exec", "");
   if (!robot.activateExecutor(id))
     throw std::runtime_error("Could not activate executor");
 

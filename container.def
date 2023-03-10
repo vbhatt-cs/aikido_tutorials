@@ -12,7 +12,7 @@ From: ubuntu:focal
 
     # ROS sources
     echo "deb http://packages.ros.org/ros/ubuntu focal main" > /etc/apt/sources.list.d/ros-latest.list
-    apt-get install -y curl gnupg
+    apt-get install -y curl gnupg wget
     curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | apt-key add -
 
     # Apt packages
@@ -21,22 +21,32 @@ From: ubuntu:focal
     DISTRO=noetic
     apt-get update
     apt-get install -y \
+        vim-tiny \
         git \
         cmake \
         build-essential \
+        pkg-config \
+        libeigen3-dev \
+        libassimp-dev \
+        libccd-dev \
+        libfcl-dev \
+        libboost-regex-dev \
+        libboost-system-dev \
+        libxi-dev \
+        libxmu-dev \
+        freeglut3-dev \
+        libopenscenegraph-dev \
+        libnlopt-cxx-dev \
+        libtinyxml2-dev \
+        liburdfdom-dev \
         libboost-filesystem-dev \
-        libdart6-optimizer-nlopt-dev \
-        libdart6-utils-dev \
-        libdart6-utils-urdf-dev \
         libmicrohttpd-dev \
         libompl-dev \
-        libtinyxml2-dev \
         libyaml-cpp-dev \
         libopencv-dev \
         libblas-dev \
         liblapack-dev \
         libmicrohttpd-dev \
-        libeigen3-dev \
         ros-$DISTRO-control-toolbox \
         ros-$DISTRO-ompl \
         ros-$DISTRO-force-torque-sensor-controller \
@@ -58,9 +68,10 @@ From: ubuntu:focal
         libncursesw5-dev \
         python3 \
         python3-pip \
+        pybind11-dev \
         python-is-python3 \
         clang-format-10 \
-        tmux  # Optional 
+        tmux  # Optional
     apt-get clean
     rm -rf /var/lib/apt/lists/*
 
@@ -80,6 +91,19 @@ From: ubuntu:focal
         opencv-python \
         PyQt5
 
+    # Dart
+    cd $PROJECT_ROOT
+    wget https://github.com/dartsim/dart/archive/refs/tags/v6.12.2.tar.gz
+    tar -xf v6.12.2.tar.gz
+    cd dart-6.12.2
+    mkdir build
+    cd build
+    cmake ..
+    make -j4
+    make install
+    cd $PROJECT_ROOT
+    rm -rf dart-6.12.2
+
     # Catkin dependencies
     cd $PROJECT_ROOT
     mkdir src
@@ -93,8 +117,8 @@ From: ubuntu:focal
     catkin init
     catkin config --extend /opt/ros/noetic
     catkin build
-   
-    # Since env section uses sh instead of bash, source the setup file here 
+
+    # Since env section uses sh instead of bash, source the setup file here
     # and just pass the commands to export the new env variables.
     printenv >>tmp_init_env
     . devel/setup.bash

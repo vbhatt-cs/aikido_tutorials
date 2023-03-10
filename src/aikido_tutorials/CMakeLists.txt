@@ -22,7 +22,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   LIBRARIES aikido_tutorials
-  CATKIN_DEPENDS roscpp 
+  CATKIN_DEPENDS roscpp
 )
 
 
@@ -77,7 +77,7 @@ add_executable(aikido_tutorials ${SOURCES})
 target_link_libraries(aikido_tutorials
   ${DART_LIBRARIES}
   ${aikido_LIBRARIES})
-  
+
 install(TARGETS aikido_tutorials
    ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
    LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
